@@ -31,12 +31,11 @@ int multiplicative(int x, int y){
     for(i=1;i<8; i++){
         resultVetor[i] = multiplicativeByX(resultVetor[i-1]);
     }
-    for(i=0;i<8;i++) printf("%d ",resultVetor[i]);
     //Operate distributive of binary
     for(i=0;i<8;i++){
+        //Verify if the bit is active
         if(x&(1<<i)){
             result = additive(resultVetor[i],result);
-            printf("aqui!%d\n",i);
         }
     }
 
@@ -51,5 +50,6 @@ int main(){
 
     printf("Soma = {%d}\nMultiplica = {%d}\n", resultadoSoma,resultadoMulitplica);
 
+    return 0;
 }
 
