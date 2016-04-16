@@ -20,25 +20,31 @@ int multiplicativeByX(int x){
     }
     return result;
 }
+int *multiplicativeX7Times(int x, int y){
+    int i,*resultVector=(int*) malloc(8*sizeof(int));
+
+    //Atribute polinome y to init operate
+    resultVector[0]= y;
+    for(i=1;i<8; i++){
+        resultVector[i] = multiplicativeByX(resultVector[i-1]);
+    }
+    return resultVector;
+}
 
 int multiplicative(int x, int y){
 
     int result = 0;
-    int i,resultVetor[8];
+    int i,*resultVector=multiplicativeX7Times(x,y);
 
-    //Atribute polinome y to init operate
-    resultVetor[0]= y;
-    for(i=1;i<8; i++){
-        resultVetor[i] = multiplicativeByX(resultVetor[i-1]);
-    }
     //Operate distributive of binary
     for(i=0;i<8;i++){
         //Verify if the bit is active
         if(x&(1<<i)){
-            result = additive(resultVetor[i],result);
+            result = additive(resultVector[i],result);
         }
     }
 
+    free(resultVector);
     return result;
 }
 
