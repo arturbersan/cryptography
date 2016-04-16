@@ -42,13 +42,34 @@ int multiplicative(int x, int y){
     return result;
 }
 
-int main(){
-    int x,y,resultadoSoma,resultadoMulitplica;
-    scanf("%d%d", &x,&y);
-    resultadoSoma = additive(x,y);
-    resultadoMulitplica = multiplicative(x,y);
+int inverseMultiplicative(int x){
+    int result = x;
+    for (int i=1;i<7;i++){
+        result = multiplicative(multiplicative(result,result),x);
+    }
+    result = multiplicative(result,result);
+    printf("inverse = {%d}\n", result);
 
-    printf("Soma = {%d}\nMultiplica = {%d}\n", resultadoSoma,resultadoMulitplica);
+    return result;
+}
+int divisor(int x,int y){
+    int inverseMultiplicativeY = inverseMultiplicative(y);
+    int result = multiplicative(inverseMultiplicativeY,x);
+
+    printf("Divisor = {%d}\n", result);
+    return result;
+}
+
+
+
+int main(){
+    int x,y,resultSom,resultMulitplic,resultDivide;
+    scanf("%d%d", &x,&y);
+    resultSom = additive(x,y);
+    resultMulitplic = multiplicative(x,y);
+    resultDivide = divisor(x,y);
+
+    printf("Soma = {%d}\nMultiplica = {%d}\nDivide = {%d}\n", resultSom,resultMulitplic,resultDivide);
 
     return 0;
 }
