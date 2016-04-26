@@ -33,12 +33,12 @@ int main(){
                    14,    6,    61,   53,    45,    37,   29,
                    21,   13,     5,   28,    20,    12,   4};
     for(int i = 0; i<56;i++){
-        newKey |= (key&(1<<(64-pc1[i])))>>(64-pc1[i]);
+        newKey |= (key&(1l<<(64-pc1[i])))>>(64-pc1[i]);
         printf("%d ,", 64-pc1[i]);
         newKey = newKey<<1;
     }
 
-    newKey = newKey>>1;
+    newKey = (newKey>>1)&((1l<<56)-1);
     printf("\n%"PRIx64"\n", newKey);
 
     divideSliceBlock(blockCipher,left_slice,right_slice);
