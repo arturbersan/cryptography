@@ -1,25 +1,29 @@
+import time
+
 def extend_euclids(a,b):
-    if b>a: 
+    if b>a:
         a,b = b,a
-    r = [a,b] 
+    r = [a,b]
     s = [1,0] # alpha value
     t = [0,1] # beta value
-    
+
     while(r[0]%r[1] != 0):
         rt = r[0]%r[1] 
         q = int(r[0]/r[1])
-        
+
         st =  s[0] - s[1]*q # calculate the new value of alpha
         tt = t[0] - t[1]*q # calculate the new value of beta
-        
+
         r[0]=r[1]
         r[1]=rt
         s[0]=s[1]
         s[1]=st # update the value of alpha
         t[0]=t[1]
         t[1]=tt # update the value of beta
-    
-    inverse_multiplicative = (r[1],t[1])
+
+    if(r[1]<0):
+        r[1]+= p
+    inverse_multiplicative = (r[1])
     return inverse_multiplicative
 
 def validate_input(a,b,p):
@@ -47,21 +51,31 @@ def find_all_points(a,b,p):
                 value_xy.append((x,y))
     return value_xy
 
-def find_lambda(x,y,a):
-    lambdaP = ( (3*(x**2)) +a)/(2*y)
+def find_lambda(x,y,a,p):
+    first_term = ( (3*(x**2)%p)%p +a)%p
+    seccond_term= (2*y)%p
+    inverse_multiplicative = extend_euclids(p,seccond_term)
+    lambdaP = (first_term * inverse_multiplicative)%p
     print(lambdaP)
+
     return lambdaP
 
 def find_order_of_point(x,y,a,p):
     order=1
-    lambdaP = find_lambda(x,y,a)
+    lambdaP = find_lambda(x,y,a,p)
     pointXr = ((lambdaP**2) - 2*x)%p
     pointYr = (lambdaP*(x-pointXr)-y)%p
 
     while pointXr != x and pointYr != y:
-        pointXr = ((lambdaP**2) - 2*x)%p
-        pointYr = (lambdaP*(x-pointXr)-y)%p
+        auxX = pointXr
+        lambdaP = find_lambda(pointXr,pointYr,a,p)
+        pointXr = ((lambdaP**2) - 2*auxX)%p
+        pointYr = (lambdaP*(auxX-pointXr)-y)%p
         order +=1
+        print("xxxxxx")
+        print(pointXr)
+        print(pointYr)
+        print(order)
 
     return order
 
@@ -80,12 +94,10 @@ if __name__ == "__main__":
     if validate_input(a,b,p):
         print("Valid valor of inputs 'a' and 'b'\nPoint of curve: ")
         value_xy = find_all_points(a,b,p)
-        list_order = find_order_of_array(value_xy,a,p)
         print(value_xy)
         print("Total number of point:")
         print(len(value_xy))
         print("Order of point:")
-        print(list_order)
 
     else:
         print("invalid A and B") 
